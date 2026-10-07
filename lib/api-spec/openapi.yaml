@@ -24,6 +24,102 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /books/trending:
+    get:
+      operationId: getTrendingBooks
+      tags: [books]
+      summary: Get trending books
+      description: Returns books ranked by recent community ratings and favorites.
+      responses:
+        "200":
+          description: Trending book engagement metrics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TrendingBook"
+  /me/interactions:
+    get:
+      operationId: getMyBookInteractions
+      tags: [books]
+      summary: Get the signed-in user's favorites and ratings
+      responses:
+        "200":
+          description: The current user's book interactions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MyBookInteractions"
+        "401":
+          description: Authentication required
+  /me/favorites/{bookId}:
+    put:
+      operationId: saveBookFavorite
+      tags: [books]
+      summary: Save a book to the signed-in user's favorites
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Favorite saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FavoriteResult"
+        "401":
+          description: Authentication required
+    delete:
+      operationId: removeBookFavorite
+      tags: [books]
+      summary: Remove a book from the signed-in user's favorites
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Favorite removed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FavoriteResult"
+        "401":
+          description: Authentication required
+  /me/ratings/{bookId}:
+    put:
+      operationId: rateBook
+      tags: [books]
+      summary: Rate a book as the signed-in user
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookRatingInput"
+      responses:
+        "200":
+          description: Rating saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookRating"
+        "400":
+          description: Rating must be between 1 and 5
+        "401":
+          description: Authentication required
 components:
   schemas:
     HealthStatus:
@@ -33,4 +129,54 @@ components:
           type: string
       required:
         - status
+    TrendingBook:
+      type: object
+      properties:
+        bookId:
+          type: string
+        averageRating:
+          type: number
+        ratingCount:
+          type: integer
+        favoriteCount:
+          type: integer
+      required: [bookId, averageRating, ratingCount, favoriteCount]
+    MyBookInteractions:
+      type: object
+      properties:
+        favorites:
+          type: array
+          items:
+            type: string
+        ratings:
+          type: array
+          items:
+            $ref: "#/components/schemas/BookRating"
+      required: [favorites, ratings]
+    FavoriteResult:
+      type: object
+      properties:
+        bookId:
+          type: string
+        saved:
+          type: boolean
+      required: [bookId, saved]
+    BookRatingInput:
+      type: object
+      properties:
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+      required: [rating]
+    BookRating:
+      type: object
+      properties:
+        bookId:
+          type: string
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+      required: [bookId, rating]
 

@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+@layer theme, base, clerk, components, utilities;
 @import 'tailwindcss';
+@import '@clerk/themes/shadcn.css';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
 
@@ -245,4 +247,56 @@
  .modal-cover .cover-title { font-size:16px; }
  .detail-modal { padding:15px; }
  .modal-text h2 { font-size:25px; }
+}
+
+/* Auth pages share the paper-and-fern palette of the reading guide. */
+.auth-screen { min-height:100dvh; display:flex; align-items:center; justify-content:center; gap:clamp(36px,8vw,120px); padding:48px 7vw; background:#f1eee4; background-image:radial-gradient(ellipse at 16% 24%,#e4e8dc 0,transparent 37%),radial-gradient(ellipse at 82% 82%,#e8dfce 0,transparent 34%); }
+.auth-note { width:min(370px,100%); color:#687970; }
+.auth-note .brand-mark { margin-bottom:24px; color:#f4eddf; font-size:19px; font-family:var(--app-font-serif); }
+.auth-note > p { color:#b5674f; font-size:10px; font-weight:700; letter-spacing:.16em; margin:0 0 20px; }
+.auth-note h1 { color:#244b40; font:500 clamp(40px,5vw,64px)/1.02 var(--app-font-serif); letter-spacing:-.05em; margin:0 0 18px; }
+.auth-note h1 em { color:#bc7056; font-weight:500; }
+.auth-note > span:last-child { display:block; max-width:315px; font-size:13px; line-height:1.75; }
+.cl-formFieldInput::placeholder { color:#89948b; opacity:1; }
+.portal-ribbon { max-width:1320px; margin:auto; padding:9px 42px; color:#45675b; background:#dfe8dc; font-size:9px; font-weight:700; letter-spacing:.15em; }
+.portal-ribbon span { margin-left:12px; font-size:10px; font-weight:500; letter-spacing:0; }
+.nav-btn { display:inline-flex; align-items:center; gap:5px; }
+.account-btn { border:1px solid #d8d6ca; }
+.book-card .cover-wrap img { width:100%; height:100%; object-fit:cover; }
+.card-meta svg { vertical-align:-1px; margin-right:3px; }
+.modal-cover img { width:100%; height:100%; object-fit:cover; }
+.modal-meta svg { vertical-align:-1px; }
+.modal-fav { display:inline-flex; align-items:center; gap:6px; }
+.modal-fav:disabled,.rating-stars button:disabled { opacity:.55; cursor:wait; }
+.rating-stars { display:flex; gap:3px; }
+.rating-stars button { border:0; background:transparent; color:#b87846; padding:4px; transition:transform .18s; }
+.rating-stars button:hover { transform:translateY(-2px); }
+.rating-hint { display:block; margin-top:3px; color:#8b9386; font-size:10px; }
+.rate-control { margin:0 0 16px; }
+.rate-control .field-label { color:#869087; margin-bottom:5px; }
+.signin-nudge { display:flex; gap:14px; align-items:center; justify-content:space-between; margin:0 0 20px; padding:14px 16px; color:#466357; background:#dfe8dc; border-radius:9px; font-size:11px; }
+.signin-nudge strong { display:block; font-family:var(--app-font-serif); font-size:15px; }
+.signin-nudge .details-btn { max-width:105px; }
+.nudge-close { border:0; background:transparent; color:#65766c; display:grid; place-items:center; padding:5px; }
+.action-error { padding:10px 12px; color:#8d3d34; background:#f4e2d9; border-radius:6px; font-size:11px; }
+.query-error { display:flex; justify-content:space-between; align-items:center; gap:12px; margin:0 0 18px; padding:11px 14px; border:1px solid #e4c5b7; border-radius:8px; color:#815546; background:#f5e9df; font-size:11px; }
+.query-error button { flex:none; border:0; border-bottom:1px solid currentColor; padding:3px 0; color:#815546; background:transparent; font-size:10px; font-weight:700; }
+.recommendation-note svg { flex:none; }
+@media(max-width:760px) {
+  .auth-screen { flex-direction:column; gap:28px; padding:34px 18px; }
+  .auth-note { text-align:center; max-width:420px; }
+  .auth-note .brand-mark { margin:0 auto 18px; }
+  .auth-note > span:last-child { margin:auto; }
+  .auth-note h1 { font-size:43px; }
+  .portal-ribbon { padding:9px 18px; }
+}
+@media(max-width:650px) {
+  .topbar { padding-inline:14px; }
+  .brand { flex:0 0 auto; gap:7px; font-size:12px; white-space:nowrap; }
+  .brand-mark { flex:none; width:28px; height:28px; }
+  .nav-actions { flex:0 0 auto; gap:0; }
+  .nav-btn { padding:7px 5px; font-size:10px; white-space:nowrap; }
+  .account-btn { padding-inline:5px; }
+  .signin-nudge { align-items:flex-start; flex-wrap:wrap; }
+  .signin-nudge > span { flex:1 1 70%; }
 }
