@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Book Recommendations"
+description = "A polished book discovery app for college students. Explore curated book recommendations by genre, mood, and reading time, search titles and authors, view book details, and save favorites."
+version = "1.0.0"
+id = "artifacts/book-recommendations"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23303
+
+[services.development]
+run = "pnpm --filter @workspace/book-recommendations run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/book-recommendations", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/book-recommendations/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23303"
+BASE_PATH = "/"
